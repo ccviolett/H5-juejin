@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Home from './Home.js'
+import Article from './Article.js'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      openArticleUUID: "1"
+    };
+
+    this.handleOpenArticleUUIDChange = this.handleOpenArticleUUIDChange.bind(this);
+  }
+
+  handleOpenArticleUUIDChange(uuid) {
+    this.setState({ openArticleUUID: uuid });
+  }
+
+  render() {
+    var articleDetail = this.props.articleDetail.find((item) => item.uuid === this.state.openArticleUUID);
+    if (articleDetail) {
+      return <div className="App">
+        <Article article={articleDetail}/>
+      </div>
+    } else {
+      return <div className="App">
+        <Home article={this.props.articleList} tab={this.props.tab} 
+          onOpenArticleUUIDChange={this.handleOpenArticleUUIDChange}
+        />
+      </div>
+    }
+  }
 }
 
 export default App;

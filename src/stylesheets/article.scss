@@ -1,0 +1,91 @@
+@import 'function.scss';
+
+.UserInfo {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    margin-right: 1rem;
+    img {
+      height: 2.5rem;
+      width: 2.5rem;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+
+    .name {
+      font-weight: 800;
+    }
+
+    .level {
+      font-size: .7rem;
+      color: #8A919F;
+    }
+  }
+}
+
+.Article {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+
+  .Content {
+    box-shadow: Shadow(0, 0, 0, 4);
+    padding: 1.5rem;
+
+    .headimg {
+      img {
+        width: 100%;
+        height: 8rem;
+        object-fit: cover;
+      }
+    }
+
+    .title {
+      margin: 1rem 0;
+    }
+
+
+    .contentinfo {
+      margin: .5rem 0;
+      color: #8A919F;
+    }
+
+    .context {
+      margin-top: 2rem;
+    }
+  }
+  .Comment {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    box-shadow: Shadow(0, 0, 0, 4);
+
+    .CommentHeader {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .CommentItem {
+      margin: 1rem 0;
+      .v1comment {
+        margin-left: .5rem;
+      }
+      .context {
+        margin: {
+          top: .3rem;
+          left: 2.8rem;
+          bottom: 1.5rem;
+        }
+        word-break: break-word;
+      }
+      .v2comment {
+        margin-left: 2.5rem;
+      }
+    }
+  }
+}
