@@ -1,10 +1,16 @@
 import React from 'react';
-import './stylesheets/home.scss'
+import TopBar from './TopBar.js'
+import { getCategories, getArticles } from './fake-api';
 
 class Home extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      sortBy: 'hot',
+      categories: [],
+      articles: [],
+      categoryId: 0,
       tabv1Select: null,
       tabv2Select: null,
       navbarSelect: null 
@@ -13,113 +19,79 @@ class Home extends React.Component {
     this.handleTabv2SelectChange = this.handleTabv2SelectChange.bind(this);
     this.handleNavbarSelectChange = this.handleNavbarSelectChange.bind(this);
   }
+
+  getApiData() {
+    getCategories().then(res => {
+      this.setState({ 
+        categories: res.data.categories
+      });
+    });
+
+    getArticles(this.state.categoryId, this.state.sortBy).then(res => {
+      this.setState({ 
+        articles: res.data.articles
+      });
+    })
+  }
+
+  componentDidMount() {
+    this.getApiData();
+  }
+
   handleTabv1SelectChange(tabv1Select) {
     this.setState({ 
+      categoryId: tabv1Select,
       tabv1Select: tabv1Select,
       tabv2Select: null
     });
+    getArticles(tabv1Select, this.state.sortBy).then(res => {
+      this.setState({ 
+        articles: res.data.articles
+      });
+    })
   }
-  handleTabv2SelectChange(tabv2Select) { this.setState({ tabv2Select: tabv2Select }); }
-  handleNavbarSelectChange(navbarSelect) { this.setState({ navbarSelect: navbarSelect }); }
+
+  handleTabv2SelectChange(tabv2Select) { 
+    this.setState({ 
+      categoryId: tabv2Select,
+      tabv2Select: tabv2Select 
+    }); 
+    getArticles(tabv2Select, this.state.sortBy).then(res => {
+      this.setState({ 
+        articles: res.data.articles
+      });
+    })
+  }
+
+  handleNavbarSelectChange(navbarSelect) { 
+    this.setState({ 
+      sortBy: navbarSelect 
+    }); 
+    getArticles(this.state.categoryId, navbarSelect).then(res => {
+      this.setState({ 
+        articles: res.data.articles
+      });
+    });
+  }
 
   render() {
-    const filterArticle = [];
-    this.props.article.forEach((item) => {
-      var able = true;
-      if (this.state.tabv1Select && this.state.tabv1Select !== "推荐" && 
-        !item.tag.includes(this.state.tabv1Select)) 
-        able = false;
-      if (this.state.tabv2Select && this.state.tabv2Select !== "全部" &&
-        !item.tag.includes(this.state.tabv2Select)) 
-        able = false;
-      if (able) filterArticle.push(item);
-    })
-
     return <div className="Home">
-      <AppBar 
-        tab={this.props.tab}
+      <TopBar 
+        categories={this.state.categories}
         tabv1Select={this.state.tabv1Select}
         onTabv1SelectChange={this.handleTabv1SelectChange}
         tabv2Select={this.state.tabv2Select}
         onTabv2SelectChange={this.handleTabv2SelectChange}
       />
       <ArticleList 
-        article={filterArticle} 
-        onOpenArticleUUIDChange={this.props.onOpenArticleUUIDChange}
+        articles={this.state.articles} 
+        onOpenArticle={this.props.onOpenArticle}
       />
       <NavBar 
-        navbarSelect={this.state.navbarSelect}
+        navbarSelect={this.state.sortBy}
         onNavbarSelectChange={this.handleNavbarSelectChange}
       />
     </div>;
-  }
-}
-
-class AppBar extends React.Component {
-  render() {
-    const tabv1 = [];
-    var tabv2 = [];
-    var finalTabv1Select = this.props.tabv1Select;
-    var finalTabv2Select = this.props.tabv2Select;
-
-    this.props.tab.forEach((item) => {
-      if (!finalTabv1Select) finalTabv1Select = item.v1;
-      tabv1.push(item.v1);
-      if (item.v1 === finalTabv1Select) tabv2 = item.v2;
-    });
-    if (!this.props.tabv2Select) finalTabv2Select = tabv2[0];
-
-    return <div className="AppBar">
-      <TopBar />
-      <TabBar tab={tabv1} type="v1" 
-        tabSelect={finalTabv1Select}
-        onTabSelectChange={this.props.onTabv1SelectChange}
-      />
-      <TabBar tab={tabv2} type="v2" 
-        tabSelect={finalTabv2Select}
-        onTabSelectChange={this.props.onTabv2SelectChange}
-      />
-    </div>;
-  }
-}
-
-class TopBar extends React.Component {
-  render() {
-    return <div className="TopBar">
-      <div className="SiteTitle">寻绎</div>
-      <form className="search-form">
-        <input className="search-input"/>
-        <div className="search-icon">
-          <i className="fa fa-search" aria-hidden="true"></i>
-        </div>
-      </form>
-    </div>
-  }
-}
-
-class TabBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleTabSelectChange = this.handleTabSelectChange.bind(this);
-  }
-
-  handleTabSelectChange(e) { this.props.onTabSelectChange(e.target.innerText); }
-
-  render() {
-    const tablist = [];
-    this.props.tab.forEach((item) => {
-      var itemclass = "TabBarItem";
-      if (item === this.props.tabSelect) itemclass += " active";
-      tablist.push( 
-        <div key={item} className={itemclass}
-          onClick={this.handleTabSelectChange}
-        >{item}</div> 
-      );
-    });
-
-    return <div className={"TabBar TabBar" + this.props.type}>
-      {tablist}
-    </div>
   }
 }
 
@@ -127,18 +99,24 @@ class ArticleList extends React.Component {
   render() {
     const list = [];
 
-    this.props.article.forEach((item) => {
+    this.props.articles.forEach((item) => {
+      var action = {
+        view: item.article_info.view_count,
+        vote: item.article_info.digg_count,
+        comment: item.article_info.comment_count
+      };
+
       list.push(
-        <ArticleItem key={item.uuid} 
-          uuid={item.uuid}
-          author={item.author}
-          date={item.date}
-          tag={item.tag}
-          title={item.title}
-          imgurl={item.imgurl}
-          abstract={item.abstract}
-          action={item.action}
-          onOpenArticleUUIDChange={this.props.onOpenArticleUUIDChange}
+        <ArticleItem key={item.article_id} 
+          uuid={item.article_id}
+          author={item.author_user_info}
+          date={item.article_info.ctime}
+          // tag={item.article_info.tag_ids}
+          title={item.article_info.title}
+          imgurl={item.article_info.cover_image}
+          abstract={item.article_info.brief_content}
+          action={action}
+          onOpenArticle={this.props.onOpenArticle}
         />
       );
     });
@@ -149,50 +127,14 @@ class ArticleList extends React.Component {
   }
 }
 
-class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleNavbarSelectChange = this.handleNavbarSelectChange.bind(this);
-  }
-
-  handleNavbarSelectChange(e) { this.props.onNavbarSelectChange(e.target.innerText); }
-
-  render() {
-    var finalNavSelect = this.props.navbarSelect;
-
-    if (!finalNavSelect) finalNavSelect = "推荐";
-
-    const itemlist = [];
-    const type = ["推荐", "最新", "历史"];
-    type.forEach((item) => {
-      var itemclass = "NavBarItem";
-      if (item === finalNavSelect) itemclass += " active";
-      itemlist.push(
-        <li key={item} className={itemclass}
-          onClick={this.handleNavbarSelectChange}
-        >{item}</li>
-      );
-    });
-
-    return <div className="NavBar">
-      {itemlist}
-    </div>
-  }
-}
-
 class ArticleItem extends React.Component {
   constructor(props) {
     super(props);
-    this.handleOpenArticleUUIDChange = this.handleOpenArticleUUIDChange.bind(this);
+    this.handleOpenArticle = this.handleOpenArticle.bind(this);
   }
 
-  handleOpenArticleUUIDChange(e) {
-    var uuid = e.target.dataset.uuid;
-    while (!uuid) {
-      e.target = e.target.parentElement;
-      uuid = e.target.dataset.uuid;
-    }
-    this.props.onOpenArticleUUIDChange(uuid);
+  handleOpenArticle(data) {
+    this.props.onOpenArticle(data);
   }
 
   render() {
@@ -208,9 +150,9 @@ class ArticleItem extends React.Component {
       imgdiv = <img src={this.props.imgurl} alt=""/>
     }
 
-    return <li className="ArticleItem" onClick={this.handleOpenArticleUUIDChange} data-uuid={this.props.uuid}>
+    return <li className="ArticleItem" onClick={(e) => this.handleOpenArticle(this.props.uuid)} data-uuid={this.props.uuid}>
       <div className="ArticleTopLine"> 
-        <div className="ArticleAuthor">{this.props.author}</div>
+        <div className="ArticleAuthor">{this.props.author.user_name}</div>
         <div className="dividing"></div>
         <div className="ArticleDate">{this.props.date}</div>
         <div className="dividing"></div>
@@ -241,6 +183,36 @@ class ArticleActionItem extends React.Component {
     return <div className="ArticleActionItem">
       <i className={this.props.icon} aria-hidden="true"></i>
       <span>{this.props.val}</span>
+    </div>
+  }
+}
+
+class NavBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleNavbarSelectChange = this.handleNavbarSelectChange.bind(this);
+  }
+
+  handleNavbarSelectChange(data) { 
+    this.props.onNavbarSelectChange(data);
+  }
+
+  render() {
+    const itemlist = [];
+    const type = ["推荐", "最新", "历史"];
+    const sortBy = ["hot", "new", "history"];
+    for (let i = 0; i < sortBy.length; i++) { 
+      var itemclass = "NavBarItem";
+      if (sortBy[i] === this.props.navbarSelect) itemclass += " active";
+      itemlist.push(
+        <li key={sortBy[i]} className={itemclass}
+          onClick={(e) => this.handleNavbarSelectChange(sortBy[i])}
+        >{type[i]}</li>
+      );
+    };
+
+    return <div className="NavBar">
+      {itemlist}
     </div>
   }
 }

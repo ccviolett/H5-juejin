@@ -29,6 +29,20 @@
   }
 }
 
+.BackIcon {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: white;
+  box-shadow: Shadow(0, 0, 0, 4);
+  border-radius: 50%;
+}
+
 .Article {
   padding: 0 1rem;
   display: flex;

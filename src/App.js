@@ -1,34 +1,39 @@
 import React from 'react';
 import Home from './Home.js'
 import Article from './Article.js'
+import './stylesheets/app.scss'
+import './stylesheets/home.scss'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openArticleUUID: "1"
+      openArticleId: null
     };
 
-    this.handleOpenArticleUUIDChange = this.handleOpenArticleUUIDChange.bind(this);
+    this.handleOpenArticleIdChange = this.handleOpenArticleIdChange.bind(this);
   }
 
-  handleOpenArticleUUIDChange(uuid) {
-    this.setState({ openArticleUUID: uuid });
+  handleOpenArticleIdChange(uuid) {
+    this.setState({openArticleId: uuid});
   }
 
   render() {
-    var articleDetail = this.props.articleDetail.find((item) => item.uuid === this.state.openArticleUUID);
-    if (articleDetail) {
-      return <div className="App">
-        <Article article={articleDetail}/>
-      </div>
+    var container = null;
+
+    if (this.state.openArticleId) {
+      container = <Article 
+        openArticleId={this.state.openArticleId}
+        onBackIconClick={this.handleOpenArticleIdChange}
+      />
     } else {
-      return <div className="App">
-        <Home article={this.props.articleList} tab={this.props.tab} 
-          onOpenArticleUUIDChange={this.handleOpenArticleUUIDChange}
-        />
-      </div>
+      container = <Home 
+        onOpenArticle={this.handleOpenArticleIdChange}
+      />
     }
+    return <div className="App">
+      {container}
+    </div>
   }
 }
 

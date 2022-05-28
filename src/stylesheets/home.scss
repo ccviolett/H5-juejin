@@ -6,7 +6,8 @@ li {
 
 .Home {
   font-size: 0.8rem;
-  .AppBar {
+
+  .TopBar {
     position: fixed;
     width: 100%;
     z-index: 100;
@@ -14,56 +15,13 @@ li {
     left: 0;
     top: 0;
 
-    .TopBar {
-      display: flex;
-      height: 3rem;
-      align-items: center;
-
-      .SiteTitle {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin: 3rem;
-      }
-
-      .search-form {
-        height: 2rem;
-        width: 10rem;
-
-        background-color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-radius: 4px;
-        position: relative;
-        border: 1px solid #C2C8D1;
-
-        .search-input {
-          border: none;
-          width: calc(100% - 3rem);
-          padding: 0.4rem 0 0.4rem .6rem;
-          color: #8a919f;
-          outline: none;
-          background-color: transparent;
-        }
-
-        .search-icon {
-          width: 2.5rem;
-          height: 100%;
-          background: #F2F3F5;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-      }
-    }
-
     .TabBar {
       height: 2.5rem;
       display: flex;
       width: auto;
       overflow-x: auto;
       align-items: center;
-      border-top: 1px solid #E5E6EB;
+      border-bottom: 1px solid #E5E6EB;
       font-size: .9rem;
 
       .TabBarItem {
@@ -79,6 +37,7 @@ li {
 
     .TabBarv1 {
       height: 3rem;
+
       .TabBarItem {
         color: #71777C;
       }
@@ -86,9 +45,8 @@ li {
 
     .TabBarv2 {
       height: 2rem;
-      box-shadow: Shadow(0, 0, 0, 1);
       padding-left: 1.8rem;
-      
+
       .TabBarItem {
         padding: 0rem .8rem;
         border-left: 1px solid #E5E6EB;
@@ -98,7 +56,7 @@ li {
   }
 
   .ArticleList {
-    padding-top: 120px;
+    padding-top: 5rem;
     display: block;
 
     .ArticleItem {
@@ -165,6 +123,10 @@ li {
           color: #86909C;
           margin-bottom: 14px;
           height: 5.5rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.2rem;
+          font-size: .85rem;
         }
 
         .ArticleImg {
@@ -180,6 +142,7 @@ li {
 
       .ArticleAction {
         display: flex;
+
         .ArticleActionItem {
           margin-right: 1.4rem;
           flex-shrink: 0;
@@ -212,10 +175,10 @@ li {
       flex-grow: 1;
       padding: 0 1.2rem;
       border-right: 1px solid #E5E6EB;
+
       &.active {
         color: #007FFF;
       }
     }
   }
 }
-
