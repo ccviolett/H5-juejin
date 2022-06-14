@@ -1,0 +1,185 @@
+@import 'function.scss';
+
+li {
+  list-style: none;
+}
+
+.Home {
+  font-size: 0.8rem;
+
+  .TopBar {
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    background-color: #fff;
+    left: 0;
+    top: 0;
+
+    .TabBar {
+      height: 2.5rem;
+      display: flex;
+      width: auto;
+      overflow-x: auto;
+      align-items: center;
+      border-bottom: 1px solid #E5E6EB;
+      font-size: .9rem;
+
+      .TabBarItem {
+        cursor: pointer;
+        padding: 0rem 1rem;
+        color: #71777C;
+
+        &.active {
+          color: #007FFF;
+        }
+      }
+    }
+
+    .TabBarv1 {
+      height: 3rem;
+
+      .TabBarItem {
+        color: #71777C;
+      }
+    }
+
+    .TabBarv2 {
+      height: 2rem;
+      padding-left: 1.8rem;
+
+      .TabBarItem {
+        padding: 0rem .8rem;
+        border-left: 1px solid #E5E6EB;
+      }
+    }
+
+  }
+
+  .ArticleList {
+    padding-top: 5rem;
+    display: block;
+    height: auto;
+
+    .ArticleItem {
+      transition: all .3 cubic-bezier(.4, 0, .2, 1);
+      display: flex;
+      background: #fff;
+      flex-direction: column;
+      align-items: flex-start;
+      border-bottom: 1px solid #E5E6EB;
+      padding: 1rem;
+      position: relative;
+
+      .ArticleTopLine {
+        display: flex;
+        align-items: center;
+
+        .ArticleAuthor {
+          color: #4E5969
+        }
+
+        .dividing {
+          width: 1px;
+          height: .8rem;
+          background: #E5E6EB;
+          margin: 0 8px;
+        }
+
+        .ArticleDate {
+          color: #86909C;
+        }
+      }
+
+      .ArticleTag {
+        display: flex;
+        top: auto;
+        position: absolute;
+        bottom: 16px;
+        right: 20px;
+
+        .ArticleTagItem {
+          flex-shrink: 0;
+          margin-left: 8px;
+          padding: 0 8px;
+          background: #fafafa;
+          border-radius: 2px;
+        }
+      }
+
+      .ArticleTitle {
+        margin: 8px 0;
+        color: #1D2129;
+        font-weight: 700;
+        font-size: 1.1rem;
+        line-height: 1.4rem;
+        word-break: break-all;
+      }
+
+      .ArticleDesc {
+        display: flex;
+        width: 100%;
+
+        .ArticleAbstract {
+          flex-grow: 1;
+          color: #86909C;
+          margin-bottom: 14px;
+          height: 5.5rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.2rem;
+          font-size: .85rem;
+        }
+
+        .ArticleImg {
+          img {
+            height: 5rem;
+            width: 7.5rem;
+            object-fit: cover;
+            margin-left: .5rem;
+            border-radius: 2px;
+          }
+        }
+      }
+
+      .ArticleAction {
+        display: flex;
+
+        .ArticleActionItem {
+          margin-right: 1.4rem;
+          flex-shrink: 0;
+
+          span {
+            margin-left: 0.3rem;
+          }
+        }
+      }
+    }
+  }
+
+  .NavBar {
+    position: fixed;
+    bottom: 0px;
+
+    padding: .8rem 0;
+    border-bottom: 1px solid #E5E6EB;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    text-align: center;
+    box-shadow: Shadow(0, 0, 0, 18);
+    left: 0;
+
+    .NavBarItem {
+      cursor: pointer;
+      flex-grow: 1;
+      padding: 0 1.2rem;
+      border-right: 1px solid #E5E6EB;
+
+      &.active {
+        color: #007FFF;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@function Shadow($red, $green, $blue, $level) {
+  /*
+  Usage:
+  box-shadow: Shadow(0, 0, 0, 1);
+   */
+  $ag: [];
+  @if $level == 1 { 
+    $ag: [0 2px 2px -1px, 0 1px 1px 0, 0 1px 3px 0]; 
+  } @if $level == 4 { 
+    $ag: [0 2px 4px -1px, 0 4px 5px 0, 0 1px 10px 0]; 
+  } @if $level == 8 { 
+    $ag: [0 5px 5px -3px, 0 8px 10px 1px, 0 3px 14px 2px]; 
+  } @if $level == 12 {
+    $ag: [0 7px 8px -4px, 0 12px 17px 2px, 0 5px 22px 4px]; 
+  } @if $level == 18 {
+    $ag: [0 9px 11px -5px, 0 18px 28px 2px, 0 7px 24px 6px]; 
+  } @if $level == 24 {
+    $ag: [0 11px 15px -7px, 0 24px 38px 3px, 9px 46px 8px]; 
+  }
+  $res: nth($ag, 1) rgba($red, $green, $blue,.2), 
+  nth($ag, 2) rgba($red, $green, $blue,.14), 
+  nth($ag, 3) rgba($red, $green, $blue,.12) !important;
+  @return $res;
+}
