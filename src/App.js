@@ -16,6 +16,7 @@ class App extends React.Component {
       articles: [],
       articleOffset: 0,
       history: [],
+      scrollTop: 0,
       openArticleId: null
     };
 
@@ -64,6 +65,8 @@ class App extends React.Component {
   }
 
   handleTabv1SelectChange(tabv1Select) {
+    window.scrollTo(0, 0);
+
     this.setState({ 
       categoryId: tabv1Select,
       tabv1Select: tabv1Select,
@@ -73,6 +76,8 @@ class App extends React.Component {
   }
 
   handleTabv2SelectChange(tabv2Select) { 
+    window.scrollTo(0, 0);
+
     this.setState({ 
       categoryId: tabv2Select,
       tabv2Select: tabv2Select 
@@ -81,6 +86,8 @@ class App extends React.Component {
   }
 
   handleNavbarSelectChange(navbarSelect) { 
+    window.scrollTo(0, 0);
+
     this.setState({ 
       sortBy: navbarSelect 
     }); 
@@ -89,14 +96,17 @@ class App extends React.Component {
 
   handleOpenArticleIdChange(item) {
     if (!item) {
+      window.scrollTo(0, this.state.scrollTop);
       this.setState({
         openArticleId: null
       });
     } else {
       this.setState({
         history: [...this.state.history, item],
-        openArticleId: item.article_id
+        openArticleId: item.article_id,
+        scrollTop: document.documentElement.scrollTop
       });
+      window.scrollTo(0, 0);
     }
   }
 
