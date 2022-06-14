@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# H5 JueJin
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+Use React to build a SPA(single-page application). Satisfy some specific requirement.
 
 ## Available Scripts
 
