@@ -1,7 +1,12 @@
 {
   "name": "juejin",
   "version": "0.1.0",
-  "private": true,
+  "author": "ccviolett",
+  "description": "JueJin H5 writen by React",
+  "keywords": ["H5", "JueJin", "React", "create-react-app"],
+  "private": false,
+  "license": "CC0",
+  "repository": "https://github.com/ccviolett/H5-juejin",
   "homepage": "./",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
